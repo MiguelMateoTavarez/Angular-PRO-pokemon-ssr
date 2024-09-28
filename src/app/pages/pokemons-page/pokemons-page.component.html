@@ -3,15 +3,26 @@
   Actual page: {{ currentPage() }}
 </h2>
 
-<hr class="my-2"/>
+<hr class="my-2" />
 
-@if(pokemons()) {
-  <pokemon-list [pokemons]="pokemons()" />
+@if(!pokemons()) {
+  <pokemon-list-skeleton />
 }@else {
-  <pokemon-list-skeleton/>
+  <pokemon-list [pokemons]="pokemons()" />
 }
 
-<div class="flex justify-between">
-  <button (click)="loadPokemons(-1)" class="mt-2">Previous</button>
-  <button (click)="loadPokemons(+1)" class="mt-2">Next</button>
-</div>
+@if(currentPage()){
+  @let actualPage = currentPage()!;
+
+  <div class="flex justify-between">
+    <button
+      [disabled]="actualPage === 1"
+      [routerLink]="['/pokemons/page', actualPage -1]"
+      class="mt-2"
+    >Previous</button>
+    <button
+      [routerLink]="['/pokemons/page', actualPage +1]"
+      class="mt-2"
+    >Next</button>
+  </div>
+}
