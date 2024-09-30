@@ -19,6 +19,14 @@
     id => `/pokemons/pages/${id}`
   ).join('\n');
 
+  const pokemonNameList = await fetch(`https://pokeapi.co/api/v1/pokemon?limit=${TOTAL_POKEMONS}`)
+    .then(res => res.json());
+
+  fileContent += '\n';
+  fileContent += pokemonNameList.results.map(
+    pokemon => `/pokemons/pages/${pokemon.name}`
+  ).join('\n');
+
   fs.writeFileSync('routes.txt', fileContent);
   console.log('Route generates')
 
